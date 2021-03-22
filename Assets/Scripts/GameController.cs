@@ -235,8 +235,8 @@ public class GameController : MonoBehaviour
                 WasCardEffectApplied = true ;
                 }
 
-            if (WasCardEffectApplied)
-                Duel();
+            //if (WasCardEffectApplied)
+               // Duel();
        
         }
 
