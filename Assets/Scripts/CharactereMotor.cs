@@ -24,13 +24,13 @@ public class CharactereMotor : MonoBehaviour
     {
         animations = gameObject.GetComponent<Animation>();
         rb = gameObject.GetComponent<Rigidbody>();
-        SoundManager.Instance.PlayMusic(MusicParcours);
+        //SoundManager.Instance.PlayMusic(MusicParcours);
     }
 
     void OnCollisionStay()
     {
         isGrounded = true;
-        SoundManager.Instance.Play(CollisionWallSound);
+        SoundManager.Instance.PlayMusic(CollisionWallSound);
     }
 
     void OnCollisionExit()
@@ -51,7 +51,7 @@ public class CharactereMotor : MonoBehaviour
     {
         if (isGrounded && parcours && !winZone)
             rb.AddForce(jumpSpeed, ForceMode.Impulse);
-        SoundManager.Instance.Play(JumpSound);
+        SoundManager.Instance.PlayMusic(JumpSound);
 
     }
 
@@ -79,13 +79,13 @@ public class CharactereMotor : MonoBehaviour
                 if (first)
                 {
                     animations.Play("victory");
-                    SoundManager.Instance.Play(VictorySound);
+                    SoundManager.Instance.PlayMusic(VictorySound);
                 }
 
                 else
                 {
                     animations.Play("die");
-                    SoundManager.Instance.Play(DefeathSound);
+                    SoundManager.Instance.PlayMusic(DefeathSound);
                 }
             }
             else if (fall)
