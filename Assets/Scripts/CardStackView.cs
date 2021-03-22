@@ -108,19 +108,19 @@ public class CardStackView : MonoBehaviour
 
         if(cardID < 5)
             {
-                cardModel.cardNumber = cardID + 1;
+                cardModel.cardNumber = cardID +1 ;
             }
             else if(cardID == 5)
             {
-                cardModel.cardNumber = 5;
+                cardModel.cardNumber = 6;
             }
             else if (cardID == 6)
             {
-                cardModel.cardNumber = 6;
+                cardModel.cardNumber = 7;
             }
             else if (cardID == 7)
             {
-                cardModel.cardNumber = 7;
+                cardModel.cardNumber = 8 ;
             }
 
         if (cardColorIndex == 0)

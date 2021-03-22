@@ -4,6 +4,7 @@ using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -23,6 +24,10 @@ public class GameController : MonoBehaviour
    
     public RectTransform panelGameOver;
     public Text winnerText;
+
+    public Canvas canvas ;
+    public AudioListener audioListener ;
+    public AudioSource music ;
   
     private int currentPlayer;
    
@@ -34,6 +39,7 @@ public class GameController : MonoBehaviour
 
     private bool WasCardEffectApplied;
     private bool WasSpecialTour ;
+    private bool finScene ;
 
 
 
@@ -42,7 +48,7 @@ public class GameController : MonoBehaviour
     {
         //loseDuel();
 
-        //winnerText.gameObject.SetActive(false);
+        winnerText.gameObject.SetActive(false);
 
         tour = 0;
     	WasCardEffectApplied = false ;
@@ -50,7 +56,7 @@ public class GameController : MonoBehaviour
         WasSpecialTour = false;
         
 
-        //panelGameOver.gameObject.SetActive(false);
+        panelGameOver.gameObject.SetActive(false);
 
         currentPlayer = 0;
 
@@ -70,6 +76,42 @@ public class GameController : MonoBehaviour
         
     }
 
+    void Restart() {
+
+        WasCardEffectApplied = false ;
+       
+        WasSpecialTour = false;
+        tour = 0;
+
+        currentPlayer = 0;
+
+        loseDuel(0);
+
+       // int gagnant = 
+
+       // InfoSingleton.getInstance() ;
+
+
+    }
+
+
+
+    void Update(){
+
+        if(WasCardEffectApplied == false){
+            if (currentPlayer == 0 && Input.GetMouseButtonDown(0)) 
+                Click();
+                
+        
+            else if ((tour == 0 && currentPlayer > 0)){
+
+                StartCoroutine(BotTour());
+                
+                }}
+        if(!(finScene))
+            Restart();
+            
+    }
 
     void StartGame()
     {
@@ -85,68 +127,60 @@ public class GameController : MonoBehaviour
 
         }
 
-    
-    public void CardClick(){
-    	Debug.Log("Clique");
-    	int i = players[currentPlayer].cards[0];
-       // view.ClickCard(currentPlayer);
-            //deckUser.Add(players[currentPlayer].cards[0]);
-        deckCard.Add(currentCard.GetComponent<CardModel>().faces[i]);
 
+     IEnumerator BotTour(){
 
+        yield return new WaitForSeconds(2) ;
 
-        players[currentPlayer].Pop();
-        print("click " + i);
-
-            
-               
-                //players[i].transform.Translate(1, 2, 0);
-                        
-              //  cardModel.ToggleFace(true); 
-
-
-        if (currentPlayer == 1) {
-            view.DetermineCard(cardModel, i);
-
-            views[currentPlayer].cardCopies[i].transform.position = new UnityEngine.Vector3(0, -1, 0);
-            views[currentPlayer].cardCopies[i].transform.localScale = new UnityEngine.Vector3(1, 1, 0);
-
-
-                    
-            
-
-        } else 
-            {view.DetermineCard(blankCardModel, i);
-             
-
-            views[currentPlayer].cardCopies[i].transform.position = new UnityEngine.Vector3(0, 1.5f, 0);
-            views[currentPlayer].cardCopies[i].transform.localScale = new UnityEngine.Vector3(1,1, 0);
-
-        }
-
-
-            
-               
-        if (currentPlayer == players.Length-1) {
-
-            currentPlayer = 0 ;
-            tour ++ ;
-            
-
-        } else currentPlayer++;
-
-        Tour();
-
-        Gagnant();
-                    
-                            
+        Click();
     }
 
-           
-        	
-    
+    public void Click() {
 
-  
+
+
+            int i = players[currentPlayer].cards[0];
+               // view.ClickCard(currentPlayer);
+                    //deckUser.Add(players[currentPlayer].cards[0]);
+                deckCard.Add(currentCard.GetComponent<CardModel>().faces[i]);
+
+
+
+                players[currentPlayer].Pop();
+                print("click " + currentPlayer);
+
+
+                    if (currentPlayer == 0) {
+                        view.DetermineCard(cardModel, i);
+
+                        views[currentPlayer].cardCopies[i].transform.position = new UnityEngine.Vector3(0, -1, 0);
+                        views[currentPlayer].cardCopies[i].transform.localScale = new UnityEngine.Vector3(1, 1, 0);
+
+                        } else 
+                            {view.DetermineCard(blankCardModel, i);
+                             
+
+                            views[currentPlayer].cardCopies[i].transform.position = new UnityEngine.Vector3(0, 1.5f, 0);
+                            views[currentPlayer].cardCopies[i].transform.localScale = new UnityEngine.Vector3(1,1, 0);
+      
+                        }
+                 
+                            if (currentPlayer == players.Length-1) {
+                    
+                                currentPlayer = 0 ;
+                                tour ++ ;
+                                
+                    
+                            } else currentPlayer++;
+
+
+                            Tour();
+
+                            Gagnant(); 
+                    
+
+       }
+
 
      public void Tour() {
 
@@ -157,7 +191,7 @@ public class GameController : MonoBehaviour
 
         int carteCompare = players[currentPlayer].cards[0];
 
-            if (cardModel.cardNumber == 5 || blankCardModel.cardNumber == 5)
+            if (cardModel.cardNumber == 6 || blankCardModel.cardNumber == 6)
 
                 WasSpecialTour = true ;
 
@@ -165,37 +199,55 @@ public class GameController : MonoBehaviour
 
             //card 6 -> fleches int : tous les participants font le duel 
 
-            else if (cardModel.cardNumber == 6 || blankCardModel.cardNumber == 6 ){
+            else if (cardModel.cardNumber == 7 || blankCardModel.cardNumber == 7 ){
 
                 WasCardEffectApplied = true ; 
                 print("DUEL fleches int");
+
             }
 
             // Card 7 -> ext : posent 1 carte 
 
-            else if (cardModel.cardNumber == 7 || blankCardModel.cardNumber == 7 ){
+            else if (cardModel.cardNumber == 8 || blankCardModel.cardNumber == 8 ){
                 
-                for (int k = 0 ; k<players.Length ; k++){
-
-                print("DUEL fleches ext");
+                for (int l = 0; l<players.Length; l++)
+                   { Click() ;}
+                    
+                    print(" fleches ext");
                 
-
-                }
-
-            
             }
 
-            if (WasSpecialTour) {
-                    if(cardModel.cardColor == blankCardModel.cardColor) 
+            if (WasSpecialTour == true) {
+                    if(cardModel.cardColor == blankCardModel.cardColor) {
+                        
                         print ("DUEL couleur");
+                        WasCardEffectApplied = true ;
+                    }
                     
 
             } else
                 if(cardModel.cardNumber == blankCardModel.cardNumber) {
                 print ("DUEL valeur");
+                WasCardEffectApplied = true ;
                 }
+
+            if (WasCardEffectApplied)
+                Duel();
        
-            }
+        }
+
+        void Duel() {
+
+            canvas.gameObject.SetActive(false);
+            music.gameObject.SetActive(false);
+            audioListener.gameObject.SetActive(false);
+
+
+
+            SceneManager.LoadScene("Parcours", LoadSceneMode.Additive);
+
+        
+    }
 
       
         

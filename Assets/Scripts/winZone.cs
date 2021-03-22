@@ -11,7 +11,7 @@ public class winZone : MonoBehaviour
         if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             nombreMax++;
-            if(col.gameObject.name == "Player1")
+            if(col.gameObject.name == "Joueur1")
             {
                 nbj++;
                 GameObject.Find("Canvas").SetActive(false);
