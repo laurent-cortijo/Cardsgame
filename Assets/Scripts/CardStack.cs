@@ -12,6 +12,7 @@ public class CardStack : MonoBehaviour
     public event CardEventHandler CardAdded;
 
     public int CardCount
+    
     {
         get
         {
@@ -49,10 +50,6 @@ public class CardStack : MonoBehaviour
             CardRemoved(this, new CardEventArgs(temp));
         }
 
-        if(cards.Count == 0 && isGameDeck)
-        {
-            CreateDeck(48);
-        }
 
         return temp;
     }
@@ -106,20 +103,10 @@ public class CardStack : MonoBehaviour
         }
     }
 
-    public void Deck() {
-        cards.Clear();
-
-        for (int i = 0; i< 48 ; i++){
-            for (int j=0; j<2 ; j++){
-                print ("pile vide");
-            }
-        }
-    }
-
-
     void Awake()
     {
         cards = new List<int>();
+        
         if(isGameDeck)
         {
            CreateDeck(48);

@@ -16,8 +16,7 @@ public class BotMotor : MonoBehaviour
     void Start()
     {
     	animations = gameObject.GetComponent<Animation>();
-        agent.speed = agent.speed + OptionalMenu.Instance.lvl; //GameMaster.difficultie;
-        Debug.Log(OptionalMenu.Instance.lvl);
+        agent.speed = agent.speed +  InfoSingleton.getInstance().getDifficulties(); 
     }
 
     // Update is called once per frame

@@ -8,15 +8,9 @@ public class CharactereMotor : MonoBehaviour
 
     public float walkSpeed, runSpeed, coteSpeed;
 
-    public string inputLeft, inputRight;
-
     public bool winZone = false, first = false, isGrounded, fall = false, parcours = false;
 
     public Vector3 jumpSpeed;
-    
-    public GameObject choose;
-
-    GameObject[] spawns;
 
     Rigidbody rb;
     // Start is called before the first frame update
@@ -82,29 +76,8 @@ public class CharactereMotor : MonoBehaviour
             }
             else
             {
-                // Déplacer à gauche
-                if (Input.GetKeyDown(inputLeft))
-                {
-                    transform.Translate(-coteSpeed, 0, 0);
-                }
-
-
-                // Déplacer à droite
-                if (Input.GetKeyDown(inputRight))
-                {
-                    transform.Translate(coteSpeed, 0, 0);
-                }
-
-                //Sauter
-                if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-                {
-                    rb.AddForce(jumpSpeed, ForceMode.Impulse);
-
-                }
                 transform.Translate(0, 0, runSpeed * Time.deltaTime);
                 animations.Play("run");
-
-
             }
         }
         

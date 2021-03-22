@@ -4,55 +4,14 @@ using UnityEngine;
 
 
 public class OptionalMenu : MonoBehaviour
-
 {
-    //private static OptionalMenu _instance;
-    //public static OptionalMenu Instance { get; private set; }
-
-    public float soundlvl;
-    public int lvl;
-
-    public static OptionalMenu Instance { get; private set; }
-
-    private void Awake()
+    public void changeAudio(float sliderValue)
     {
-        /*if (Instance == null)
-            _instance = this;
-        else if (Instance != this)
-            Destroy(gameObject);*/
-        if (Instance != null && Instance != this) {
-            Destroy(gameObject);
-            return;
-        } else {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        InfoSingleton.getInstance().setAudio(sliderValue);
     }
 
-    public static int getDifficulty()
+    public void changeDifficulties(int dif)
     {
-        return Instance.lvl;
-    }
-
-    public static float getSound()
-    {
-        return Instance.soundlvl;
-    }
-
-    public static void changeAudio(float sliderValue)
-    {
-    	Instance.soundlvl = Mathf.Log10 (sliderValue)*20;
-        //GameInfo.sound = soundlvl;
-    }
-
-    public static void setDifficulty() { return; }
-
-    public static void setAudio() { return; }
-
-
-    public static void changeDifficulties(int dif)
-    {
-    	Instance.lvl = dif;
-        //GameInfo.difficultie = lvl;
+        InfoSingleton.getInstance().setDifficulties(dif);
     }
 }
