@@ -39,7 +39,7 @@ public class GameController : MonoBehaviour
 
     private bool WasCardEffectApplied;
     private bool WasSpecialTour ;
-    private bool finScene ;
+    
 
 
 
@@ -77,6 +77,8 @@ public class GameController : MonoBehaviour
     }
 
     void Restart() {
+    	InfoSingleton.getInstance().setBool(true);
+    	int winner = InfoSingleton.getInstance().getWinner();
 
         WasCardEffectApplied = false ;
        
@@ -84,12 +86,14 @@ public class GameController : MonoBehaviour
         tour = 0;
 
         currentPlayer = 0;
-
-        loseDuel(0);
+        if(winner == 0)
+        	loseDuel(1);
+        else
+        	loseDuel(0);
 
        // int gagnant = 
 
-       // InfoSingleton.getInstance() ;
+      
 
 
     }
@@ -108,7 +112,7 @@ public class GameController : MonoBehaviour
                 StartCoroutine(BotTour());
                 
                 }}
-        if(!(finScene))
+        if(!(InfoSingleton.getInstance().getBool()))
             Restart();
             
     }
@@ -241,9 +245,7 @@ public class GameController : MonoBehaviour
             canvas.gameObject.SetActive(false);
             music.gameObject.SetActive(false);
             audioListener.gameObject.SetActive(false);
-
-
-
+            InfoSingleton.getInstance().setNbPlayerDuel(2);
             SceneManager.LoadScene("Parcours", LoadSceneMode.Additive);
 
         
@@ -257,7 +259,6 @@ public class GameController : MonoBehaviour
             print("Le joueur " + "n° perdant" + "obtiens" + deckCard.Count + " cartes");
             players[loser].Push(deck.Pop());
             deckCard.RemoveAt(i);
-
         }
     }
 

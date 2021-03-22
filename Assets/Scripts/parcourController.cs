@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class parcourController : MonoBehaviour
 {
     GameObject canva, tmp, bot;
-	GameObject[] spawns, players;
+	GameObject[] spawns, players, playParcours;
 	List<int> num;
-	int n,jmax,j;
+	int n,jmax,j, nbplayers;
 
     // Start is called before the first frame update
     void Start()
@@ -15,13 +16,25 @@ public class parcourController : MonoBehaviour
         spawns = GameObject.FindGameObjectsWithTag("parcoursSpawn");
         players = GameObject.FindGameObjectsWithTag("Player");
         canva = GameObject.Find("Canvas");
+        nbplayers = InfoSingleton.getInstance().getNbPlayerDuel();
+        takePlayer();
+    }
+
+    void takePlayer()
+    {
+        playParcours = new GameObject[nbplayers];
+        for (int indice = 0; indice<nbplayers;indice++)
+        {
+            playParcours[indice] = players[indice];
+        }
+
         pickSpawn();
     }
 
     void pickSpawn()
     {
     	num = new List<int> {0,1,2,3};
-    	foreach(GameObject joueur in players)
+    	foreach(GameObject joueur in playParcours)
     	{
     		n = Random.Range(0, num.Count);
     		tmp = spawns[num[n]];
@@ -52,7 +65,7 @@ public class parcourController : MonoBehaviour
     {
     	canva.SetActive(true);
         yield return new WaitForSeconds(3);
-        foreach(GameObject joueur in players)
+        foreach(GameObject joueur in playParcours)
     	{
     		if (joueur.name == "Player1")
     			joueur.GetComponent<CharactereMotor>().parcours = true;
@@ -62,7 +75,7 @@ public class parcourController : MonoBehaviour
         
     }
 
-    IEnumerator Restart()
+    /*IEnumerator Restart()
     {
     	yield return new WaitForSeconds(3);
     	foreach(GameObject joueur in players)
@@ -81,9 +94,29 @@ public class parcourController : MonoBehaviour
     	}	
     	pickSpawn();
     		
-    }
+    }*/
 
     // Update is called once per frame
+    void findWinner()
+    {
+        int indice = 0; 
+        foreach(GameObject joueur in playParcours)
+        {
+            if (joueur.name == "Player1")
+                if(joueur.GetComponent<CharactereMotor>().first)
+                {
+                    InfoSingleton.getInstance().setWinner(indice);
+                    return;
+                }
+            else
+                if(joueur.GetComponent<BotMotor>().first)
+                {
+                    InfoSingleton.getInstance().setWinner(indice);
+                    return;
+                }
+            indice++;
+        }
+    }
     void Update()
     {
     	jmax = GameObject.Find("winarea").GetComponent<winZone>().nombreMax;
@@ -92,7 +125,10 @@ public class parcourController : MonoBehaviour
         {
         	GameObject.Find("winarea").GetComponent<winZone>().nombreMax = 0 ;
         	GameObject.Find("winarea").GetComponent<winZone>().nbj = 0 ;
-        	StartCoroutine(Restart());
+            findWinner();
+            InfoSingleton.getInstance().setBool(false);
+            SceneManager.UnloadSceneAsync("Parcours");
+        	//StartCoroutine(Restart());
         }
 
         	

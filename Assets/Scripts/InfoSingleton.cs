@@ -8,6 +8,7 @@ public class InfoSingleton : MonoBehaviour
 	private int difficulties = 0, nb_player_duel, winner;
 	[SerializeField]
 	private float audiolvl = 1;
+    private bool parcour = true;
     static InfoSingleton instance;
 
     public static InfoSingleton getInstance()
@@ -64,5 +65,15 @@ public class InfoSingleton : MonoBehaviour
     public int getWinner()
     {
     	return winner;
+    }
+
+    public void setBool(bool bo)
+    {
+        parcour = bo;
+    }
+
+    public bool getBool()
+    {
+        return parcour;
     }
 }
