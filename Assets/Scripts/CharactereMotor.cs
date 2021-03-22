@@ -12,22 +12,32 @@ public class CharactereMotor : MonoBehaviour
 
     public Vector3 jumpSpeed;
 
+    public AudioClip MusicParcours;
+    public AudioClip CollisionWallSound;
+    public AudioClip VictorySound;
+    public AudioClip DefeathSound;
+    public AudioClip JumpSound;
+
     Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
         animations = gameObject.GetComponent<Animation>();
         rb = gameObject.GetComponent<Rigidbody>();
+        SoundManager.Instance.PlayMusic(MusicParcours);
     }
 
     void OnCollisionStay()
     {
         isGrounded = true;
+        SoundManager.Instance.Play(CollisionWallSound);
     }
 
     void OnCollisionExit()
     {
         isGrounded = false;
+        
+
     }
 
     IEnumerator Wait_fall()
@@ -41,7 +51,8 @@ public class CharactereMotor : MonoBehaviour
     {
         if (isGrounded && parcours && !winZone)
             rb.AddForce(jumpSpeed, ForceMode.Impulse);
-        
+        SoundManager.Instance.Play(JumpSound);
+
     }
 
     public void leftAction()
@@ -66,9 +77,16 @@ public class CharactereMotor : MonoBehaviour
             if (winZone)
             {
                 if (first)
+                {
                     animations.Play("victory");
+                    SoundManager.Instance.Play(VictorySound);
+                }
+
                 else
+                {
                     animations.Play("die");
+                    SoundManager.Instance.Play(DefeathSound);
+                }
             }
             else if (fall)
             {
