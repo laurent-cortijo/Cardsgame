@@ -90,12 +90,6 @@ public class GameController : MonoBehaviour
         	loseDuel(1);
         else
         	loseDuel(0);
-
-       // int gagnant = 
-
-      
-
-
     }
 
 
@@ -103,18 +97,18 @@ public class GameController : MonoBehaviour
     void Update(){
 
         if(WasCardEffectApplied == false){
-            if (currentPlayer == 0 && Input.GetMouseButtonDown(0)) 
-                Click();
-                
-        
-            else if ((tour == 0 && currentPlayer > 0)){
-
-                StartCoroutine(BotTour());
-                
-                }}
+            if (currentPlayer == 0 && Input.GetMouseButtonDown(0))
+            {
+            	Click();
+            } 
+            else if(currentPlayer != 0)
+            {
+            	StartCoroutine(Wait());
+            	Click();
+            } 	
+        }        
         if(!(InfoSingleton.getInstance().getBool()))
-            Restart();
-            
+        	Restart();     
     }
 
     void StartGame()
@@ -123,26 +117,18 @@ public class GameController : MonoBehaviour
         {
             for (int j = 0; j < players.Length; j++)
             {
-
-                players[j].Push(deck.Pop());
-               
+                players[j].Push(deck.Pop());   
             }
         }
 
-        }
+    }
 
 
-     IEnumerator BotTour(){
-
-        yield return new WaitForSeconds(2) ;
-
-        Click();
+     IEnumerator Wait(){
+        yield return new WaitForSeconds(2);
     }
 
     public void Click() {
-
-
-
             int i = players[currentPlayer].cards[0];
                // view.ClickCard(currentPlayer);
                     //deckUser.Add(players[currentPlayer].cards[0]);
@@ -151,7 +137,6 @@ public class GameController : MonoBehaviour
 
 
                 players[currentPlayer].Pop();
-                print("click " + currentPlayer);
 
 
                     if (currentPlayer == 0) {
@@ -160,29 +145,22 @@ public class GameController : MonoBehaviour
                         views[currentPlayer].cardCopies[i].transform.position = new UnityEngine.Vector3(0, -1, 0);
                         views[currentPlayer].cardCopies[i].transform.localScale = new UnityEngine.Vector3(1, 1, 0);
 
-                        } else 
-                            {view.DetermineCard(blankCardModel, i);
-                             
-
-                            views[currentPlayer].cardCopies[i].transform.position = new UnityEngine.Vector3(0, 1.5f, 0);
-                            views[currentPlayer].cardCopies[i].transform.localScale = new UnityEngine.Vector3(1,1, 0);
-      
-                        }
+                    } 
+                    else {
+                    	view.DetermineCard(blankCardModel, i);
+                        views[currentPlayer].cardCopies[i].transform.position = new UnityEngine.Vector3(0, 1.5f, 0);
+                        views[currentPlayer].cardCopies[i].transform.localScale = new UnityEngine.Vector3(1,1, 0);
+  
+                    }
                  
-                            if (currentPlayer == players.Length-1) {
-                    
-                                currentPlayer = 0 ;
-                                tour ++ ;
-                                
-                    
-                            } else currentPlayer++;
-
-
-                            Tour();
-
-                            Gagnant(); 
-                    
-
+                    if (currentPlayer == players.Length-1) {
+                        currentPlayer = 0 ;
+                        tour ++ ;
+                  	} 
+                    else 
+                    	currentPlayer++;
+                    Tour();
+                    //Gagnant();               
        }
 
 
@@ -192,52 +170,42 @@ public class GameController : MonoBehaviour
 
     	WasSpecialTour = false ;
     	WasCardEffectApplied = false ;
-
-        int carteCompare = players[currentPlayer].cards[0];
-
-            if (cardModel.cardNumber == 6 || blankCardModel.cardNumber == 6)
-
-                WasSpecialTour = true ;
+        if (cardModel.cardNumber == 6 || blankCardModel.cardNumber == 6)
+            WasSpecialTour = true ;
 
 
 
-            //card 6 -> fleches int : tous les participants font le duel 
+        //card 6 -> fleches int : tous les participants font le duel 
 
-            else if (cardModel.cardNumber == 7 || blankCardModel.cardNumber == 7 ){
+        else if (cardModel.cardNumber == 7 || blankCardModel.cardNumber == 7 ){
+            WasCardEffectApplied = true ; 
+            print("DUEL fleches int");
+        }
 
-                WasCardEffectApplied = true ; 
-                print("DUEL fleches int");
+        // Card 7 -> ext : posent 1 carte 
 
-            }
+        else if (cardModel.cardNumber == 8 || blankCardModel.cardNumber == 8 ){ 
+            for (int l = 0; l<players.Length; l++)
+               { Click() ;}    
+                print(" fleches ext");   
+        }
 
-            // Card 7 -> ext : posent 1 carte 
-
-            else if (cardModel.cardNumber == 8 || blankCardModel.cardNumber == 8 ){
+        if (WasSpecialTour == true) {
+            if(cardModel.cardColor == blankCardModel.cardColor) {
                 
-                for (int l = 0; l<players.Length; l++)
-                   { Click() ;}
-                    
-                    print(" fleches ext");
-                
-            }
-
-            if (WasSpecialTour == true) {
-                    if(cardModel.cardColor == blankCardModel.cardColor) {
-                        
-                        print ("DUEL couleur");
-                        WasCardEffectApplied = true ;
-                    }
-                    
-
-            } else
-                if(cardModel.cardNumber == blankCardModel.cardNumber) {
-                print ("DUEL valeur");
+                print ("DUEL couleur");
                 WasCardEffectApplied = true ;
-                }
+            }
+        } 
+        else
+        	if(cardModel.cardNumber == blankCardModel.cardNumber) {
+	            print ("DUEL valeur");
+	            WasCardEffectApplied = true ;
+            }
 
-            //if (WasCardEffectApplied)
-               // Duel();
-       
+        //if (WasCardEffectApplied)
+           // Duel();
+   
         }
 
         void Duel() {
