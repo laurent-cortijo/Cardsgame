@@ -11,7 +11,6 @@ public class GameController : MonoBehaviour
 
     private int tour ;
     public int click ;
-    private int[] carteJouees = new int [48];
 
     public CardStack[] players ;
 
@@ -45,8 +44,6 @@ public class GameController : MonoBehaviour
     void Start()
 
     {
-      
-
         winnerText.gameObject.SetActive(false);
         panelGameOver.gameObject.SetActive(false);
         tour = 0;
@@ -94,7 +91,8 @@ public class GameController : MonoBehaviour
         	loseDuel(1);
         else
         	loseDuel(0);
-		
+
+
     }
 
 
@@ -132,65 +130,71 @@ public class GameController : MonoBehaviour
 
     public void Click() {
 
-        carteJouees[click] = players[currentPlayer].cards[0];
+         int x = players[currentPlayer].cards[0];
 
-        deckCard.Add(currentCard.GetComponent<CardModel>().faces[carteJouees[click]]);
+       deckCard.Add(currentCard.GetComponent<CardModel>().faces[x]);
 
         players[currentPlayer].Pop();
 
         if (currentPlayer == 0) {
-            view.DetermineCard(cardModel, carteJouees[click]);
-            views[currentPlayer].cardCopies[carteJouees[click]].transform.position = new UnityEngine.Vector3(0, -1, 0);
-            views[currentPlayer].cardCopies[carteJouees[click]].transform.localScale = new UnityEngine.Vector3(1, 1, 0);
+            view.DetermineCard(cardModel, x);
+            Tour(cardModel);
+            views[currentPlayer].cardCopies[x].transform.position = new UnityEngine.Vector3(0, -1, 0);
+            views[currentPlayer].cardCopies[x].transform.localScale = new UnityEngine.Vector3(1, 1, 0);
 
         } 
         else {
-        	view.DetermineCard(blankCardModel, carteJouees[click]);
-            views[currentPlayer].cardCopies[carteJouees[click]].transform.position = new UnityEngine.Vector3(0, 1.5f, 0);
-            views[currentPlayer].cardCopies[carteJouees[click]].transform.localScale = new UnityEngine.Vector3(1,1, 0);
+            view.DetermineCard(blankCardModel, x);
+            Tour(blankCardModel);
+            views[currentPlayer].cardCopies[x].transform.position = new UnityEngine.Vector3(0, 1.5f, 0);
+            views[currentPlayer].cardCopies[x].transform.localScale = new UnityEngine.Vector3(1,1, 0);
         }
      
         if (currentPlayer == players.Length-1) {
             currentPlayer = 0 ;
             tour ++ ;
-      	} 
+        } 
         else 
-        	currentPlayer++;
+            currentPlayer++;
 
-        click++ ;
+        
         if(WasCardEffectApplied == false)
         {
-            Tour();
-            Gagnant(); 
+          
             if (currentPlayer !=0 )
             {
                 StartCoroutine(Wait());
             }
         }
+
+        if (tour == 4)
+            loseDuel(currentPlayer);
+
+        click++ ;
+        deck.NewDeck(x);
         
                        
     }
 
 
-     public void Tour() {
+     public void Tour(CardModel cardModel) {
 
     	
-    	WasCardEffectApplied = false ;
-        if (cardModel.cardNumber == 6 || blankCardModel.cardNumber == 6){
+        if (cardModel.cardNumber == 6 ){
             specialTour = true ;
         }
 
 
         //card 6 -> fleches int : tous les participants font le duel 
 
-        else if (cardModel.cardNumber == 7 || blankCardModel.cardNumber == 7 ){
+        else if (cardModel.cardNumber == 7  ){
             WasCardEffectApplied = true ; 
             print("DUEL fleches int");
         }
 
         // Card 7 -> ext : posent 1 carte 
 
-        else if (cardModel.cardNumber == 8 || blankCardModel.cardNumber == 8 ){
+        else if (cardModel.cardNumber == 8 ){
         	print(" fleches ext"); 
             for (int l = 0; l<players.Length; l++)
             {
@@ -224,8 +228,9 @@ public class GameController : MonoBehaviour
             canvas.gameObject.SetActive(false);
             music.gameObject.SetActive(false);
             audioListener.gameObject.SetActive(false);
+            loseDuel(currentPlayer);
             InfoSingleton.getInstance().setNbPlayerDuel(2);
-            SceneManager.LoadScene("Parcours", LoadSceneMode.Additive);
+              SceneManager.LoadScene("Parcours", LoadSceneMode.Additive);
 
         
     }
@@ -234,13 +239,11 @@ public class GameController : MonoBehaviour
         
     void loseDuel(int loser){
 
-        for (int i=0; i<deckCard.Count; i++){
+        for (int i=0; i<deckCard.Count-1; i++){
 
-            int j = carteJouees[i];
+            players[loser].NewDeck(deck.Pop());
+
             
-            players[loser].Push(j);
-
-            deckCard.RemoveAt(i);
         }
         print("Le joueur " + loser +  " obtient " + deckCard.Count + " cartes");
     }

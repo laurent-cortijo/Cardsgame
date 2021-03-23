@@ -64,9 +64,9 @@ public class CardStack : MonoBehaviour
         }
     }
 
-    public int Peek()
+    public int Peek(int j)
     {
-        int temp = cards[0];
+        int temp = cards[j];
 
         return temp;
     }
@@ -79,6 +79,10 @@ public class CardStack : MonoBehaviour
         {
             CardAdded(this, new CardEventArgs(card));
         }
+    }
+
+    public void NewDeck(int card){
+        cards.Add(card);
     }
 
     
