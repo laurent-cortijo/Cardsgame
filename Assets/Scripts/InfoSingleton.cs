@@ -8,6 +8,7 @@ public class InfoSingleton : MonoBehaviour
 	private int difficulties = 0, nb_player_duel, winner;
 	[SerializeField]
 	private float audiolvl = 0.5f;
+    [SerializeField]
     private bool parcour = true;
     static InfoSingleton instance;
 

@@ -89,11 +89,12 @@ public class GameController : MonoBehaviour
         music.gameObject.SetActive(true);
         audioListener.gameObject.SetActive(true);
 
-
+        
         if(winner == 0)
         	loseDuel(1);
         else
         	loseDuel(0);
+		
     }
 
 
