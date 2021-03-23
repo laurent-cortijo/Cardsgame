@@ -63,7 +63,7 @@ public class parcourController : MonoBehaviour
 
     IEnumerator Wait_start()
     {
-    	canva.SetActive(true);
+    	canva.transform.GetChild(0).gameObject.SetActive(true);
         yield return new WaitForSeconds(3);
         foreach(GameObject joueur in playParcours)
     	{
@@ -110,6 +110,7 @@ public class parcourController : MonoBehaviour
             {
                 if(joueur.GetComponent<CharactereMotor>().first)
                 {
+                	canva.transform.GetChild(1).gameObject.SetActive(true);
                     InfoSingleton.getInstance().setWinner(indice);
                     return;
                 }
@@ -117,7 +118,8 @@ public class parcourController : MonoBehaviour
             else
             {
               if(joueur.GetComponent<BotMotor>().first)
-                {
+                {	
+                	canva.transform.GetChild(2).gameObject.SetActive(true);
                     InfoSingleton.getInstance().setWinner(indice);
                     return;
                 }  
@@ -131,6 +133,7 @@ public class parcourController : MonoBehaviour
     	j = GameObject.Find("winarea").GetComponent<winZone>().nbj;
         if( jmax == players.Length || j == 1)
         {
+        	canva.transform.GetChild(0).gameObject.SetActive(false);
         	GameObject.Find("winarea").GetComponent<winZone>().nombreMax = 0 ;
         	GameObject.Find("winarea").GetComponent<winZone>().nbj = 0 ;
             findWinner();

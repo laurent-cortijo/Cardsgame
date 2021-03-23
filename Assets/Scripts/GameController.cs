@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour
         tour = 0;
     	WasCardEffectApplied = false ;
         specialTour = false ;
-       
+        click = 0;
         
 
         currentPlayer = 0;
@@ -125,7 +125,7 @@ public class GameController : MonoBehaviour
 
 
     IEnumerator Wait(){
-    	yield return new WaitForSeconds(2);
+    	yield return new WaitForSeconds(1);
     	Click();    
     }
 
@@ -157,10 +157,17 @@ public class GameController : MonoBehaviour
         	currentPlayer++;
 
         click++ ;
-        Tour();
-        Gagnant();
-        if (currentPlayer !=0 && WasCardEffectApplied == false )
-        	StartCoroutine(Wait());               
+        if(WasCardEffectApplied == false)
+        {
+            Tour();
+            Gagnant(); 
+            if (currentPlayer !=0 )
+            {
+                StartCoroutine(Wait());
+            }
+        }
+        
+                       
     }
 
 
@@ -187,11 +194,13 @@ public class GameController : MonoBehaviour
             for (int l = 0; l<players.Length; l++)
             {
             	if (WasCardEffectApplied == false)
+                {
                 	Click() ;
+                }
             }        
         }
 
-        else if(specialTour){
+        if(specialTour){
             if(cardModel.cardColor == blankCardModel.cardColor) {
                 
                 print ("DUEL couleur");
@@ -207,9 +216,9 @@ public class GameController : MonoBehaviour
         if (WasCardEffectApplied)
             Duel();
    
-        }
+    }
 
-        void Duel() {
+    void Duel() {
 
             canvas.gameObject.SetActive(false);
             music.gameObject.SetActive(false);
@@ -232,22 +241,29 @@ public class GameController : MonoBehaviour
 
             deckCard.RemoveAt(i);
         }
-        print("Le joueur " + loser + "obtiens" + deckCard.Count + " cartes");
+        print("Le joueur " + loser +  " obtient " + deckCard.Count + " cartes");
     }
 
 
     void Gagnant() {
-
-        for (int i = 0; i<players.Length ; i++){
-            if(players[i].CardStackCount() == 0){
-
-                panelGameOver.gameObject.SetActive(true);
-                winnerText.text = "Le jouer  " + i + " a gagné !!";
-                }
+        if(players[currentPlayer].CardStackCount() == 0){
+            panelGameOver.gameObject.SetActive(true);
+            if (currentPlayer == 0)
+            {
+              winnerText.text = "Vous avez gagné !!";  
             }
-
-        
+            else
+            {
+               winnerText.text = "Vous avez perdu !!"; 
+            }
+            StartCoroutine(fin());   
+        }             
 	}
+
+    IEnumerator fin(){
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene("Menu");    
+    }
 
 }
 

@@ -12,13 +12,16 @@ public class CharactereMotor : MonoBehaviour
 
     public Vector3 jumpSpeed;
 
-    private int audiosound = 0;
+    private int audiosound = 0, audiosoundsplash = 0;
 
-    //public AudioClip MusicParcours;
+    public SoundManager soundmanager;
+
+    public AudioClip MusicParcours;
     public AudioClip CollisionWallSound;
     public AudioClip VictorySound;
     public AudioClip DefeathSound;
     public AudioClip JumpSound;
+    public AudioClip WaterSplash;
 
     Rigidbody rb;
     // Start is called before the first frame update
@@ -48,6 +51,7 @@ public class CharactereMotor : MonoBehaviour
         animations.Play("idle");
         yield return new WaitForSeconds(1);
         fall = false;
+        audiosoundsplash = 0;
     }
 
     public void jumpAction()
@@ -55,7 +59,9 @@ public class CharactereMotor : MonoBehaviour
         if (isGrounded && parcours && !winZone)
         {
             rb.AddForce(jumpSpeed, ForceMode.Impulse);
-            SoundManager.Instance.Play(JumpSound);
+            //SoundManager.Instance.Play(JumpSound);
+            soundmanager.EffectsSource.clip = JumpSound;
+            soundmanager.EffectsSource.Play();
         }
         
     }
@@ -87,7 +93,9 @@ public class CharactereMotor : MonoBehaviour
                     //SoundManager.Instance.MusicSource.Stop();
                     if(audiosound == 0)
                     {
-                        SoundManager.Instance.Play(VictorySound);
+                        //SoundManager.Instance.Play(VictorySound);
+                        soundmanager.EffectsSource.clip = VictorySound;
+                        soundmanager.EffectsSource.Play();
                         audiosound++;
                     }
                     //SoundManager.Instance.Play(VictorySound);
@@ -99,7 +107,12 @@ public class CharactereMotor : MonoBehaviour
                     //SoundManager.Instance.MusicSource.Stop();
                     if (audiosound == 0)
                     {
-                        SoundManager.Instance.Play(DefeathSound);
+                        //SoundManager.Instance.MusicSource.Stop();
+                        //SoundManager.Instance.Play(DefeathSound);
+                        soundmanager.MusicSource.clip = MusicParcours;
+                        soundmanager.MusicSource.Stop();
+                        soundmanager.EffectsSource.clip = DefeathSound;
+                        soundmanager.EffectsSource.Play();
                         audiosound++;
                     }
                     //SoundManager.Instance.Play(DefeathSound);
@@ -107,6 +120,12 @@ public class CharactereMotor : MonoBehaviour
             }
             else if (fall)
             {
+            	if (audiosoundsplash == 0)
+            	{
+            		soundmanager.EffectsSource.clip = WaterSplash;
+        			soundmanager.EffectsSource.Play();
+        			audiosoundsplash++;
+            	}
                 StartCoroutine(Wait_fall());
             }
             else

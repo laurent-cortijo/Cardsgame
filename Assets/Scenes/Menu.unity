@@ -206,7 +206,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3732,7 +3732,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   difficulties: 0
-  audiolvl: 1
+  nb_player_duel: 0
+  winner: 0
+  audiolvl: 0.5
 --- !u!4 &2128117982
 Transform:
   m_ObjectHideFlags: 0
@@ -3777,7 +3779,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 76b53e46ff6ef6745931798de86f2bd4, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.498
   m_Pitch: 1
   Loop: 1
   Mute: 0

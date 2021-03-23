@@ -8,15 +8,21 @@ public class SoundManager : MonoBehaviour
 	public AudioSource EffectsSource;
 	public AudioSource MusicSource;
 
+	void Start()
+	{
+		EffectsSource.volume = InfoSingleton.getInstance().getAudio();
+		MusicSource.volume = InfoSingleton.getInstance().getAudio();
+	}
+
 	// Random pitch adjustment range.
 	//public float LowPitchRange = .95f;
 	//public float HighPitchRange = 1.05f;
 
 	// Singleton instance.
-	public static SoundManager Instance = null;
+	//public static SoundManager Instance = null;
 
 	// Initialize the singleton instance.
-	private void Awake()
+	/*private void Awake()
 	{
 		// If there is not already an instance of SoundManager, set it to this.
 		if (Instance == null)
@@ -31,7 +37,7 @@ public class SoundManager : MonoBehaviour
 
 		//Set SoundManager to DontDestroyOnLoad so that it won't be destroyed when reloading our scene.
 		DontDestroyOnLoad(gameObject);
-	}
+	}*/
 
 	// Play a single clip through the sound effects source.
 	public void Play(AudioClip clip)

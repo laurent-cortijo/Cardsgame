@@ -14,7 +14,6 @@ public class winZone : MonoBehaviour
             if(col.gameObject.name == "Joueur1")
             {
                 nbj++;
-                GameObject.Find("Canvas").SetActive(false);
                 col.GetComponent<CharactereMotor>().winZone = true;
                 if (nombreMax == 1)
                 {
