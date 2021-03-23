@@ -9,7 +9,8 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
 
-    private int tour, click ;
+    private int tour ;
+    public int click ;
     private int[] carteJouees = new int [48];
 
     public CardStack[] players ;
