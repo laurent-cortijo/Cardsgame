@@ -41,7 +41,7 @@ public class parcourController : MonoBehaviour
     		num.RemoveAt(n);
     		joueur.GetComponent<Animation>().Play("idle");
     		transposePlayer(joueur,tmp);
-    		if(joueur.name != "Player1")
+    		if(joueur.name != "Joueur1")
     			joueur.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
     	}
     	StartCoroutine(Wait_start());
@@ -67,7 +67,7 @@ public class parcourController : MonoBehaviour
         yield return new WaitForSeconds(3);
         foreach(GameObject joueur in playParcours)
     	{
-    		if (joueur.name == "Player1")
+    		if (joueur.name == "Joueur1")
     			joueur.GetComponent<CharactereMotor>().parcours = true;
     		else
     			joueur.GetComponent<BotMotor>().parcours = true;
@@ -75,9 +75,13 @@ public class parcourController : MonoBehaviour
         
     }
 
-    /*IEnumerator Restart()
+    IEnumerator Restart()
     {
-    	yield return new WaitForSeconds(3);
+    	yield return new WaitForSeconds(5);
+        InfoSingleton.getInstance().setBool(false);
+        SceneManager.UnloadSceneAsync("Parcours");
+
+        /*
     	foreach(GameObject joueur in players)
     	{
     		if (joueur.name == "Player1")
@@ -92,9 +96,9 @@ public class parcourController : MonoBehaviour
     		}
     			
     	}	
-    	pickSpawn();
+    	pickSpawn();*/
     		
-    }*/
+    }
 
     // Update is called once per frame
     void findWinner()
@@ -102,18 +106,22 @@ public class parcourController : MonoBehaviour
         int indice = 0; 
         foreach(GameObject joueur in playParcours)
         {
-            if (joueur.name == "Player1")
+            if (joueur.name == "Joueur1")
+            {
                 if(joueur.GetComponent<CharactereMotor>().first)
                 {
                     InfoSingleton.getInstance().setWinner(indice);
                     return;
                 }
+            }  
             else
-                if(joueur.GetComponent<BotMotor>().first)
+            {
+              if(joueur.GetComponent<BotMotor>().first)
                 {
                     InfoSingleton.getInstance().setWinner(indice);
                     return;
-                }
+                }  
+            } 
             indice++;
         }
     }
@@ -126,9 +134,7 @@ public class parcourController : MonoBehaviour
         	GameObject.Find("winarea").GetComponent<winZone>().nombreMax = 0 ;
         	GameObject.Find("winarea").GetComponent<winZone>().nbj = 0 ;
             findWinner();
-            InfoSingleton.getInstance().setBool(false);
-            SceneManager.UnloadSceneAsync("Parcours");
-        	//StartCoroutine(Restart());
+            StartCoroutine(Restart());
         }
 
         	

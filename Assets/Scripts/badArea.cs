@@ -33,7 +33,7 @@ public class badArea : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (col.gameObject.name =="Joueur1")
         {
             col.transform.position = respawn.transform.position;
             col.GetComponent<CharactereMotor>().fall = true;

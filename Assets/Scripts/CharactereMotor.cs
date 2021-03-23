@@ -12,7 +12,9 @@ public class CharactereMotor : MonoBehaviour
 
     public Vector3 jumpSpeed;
 
-    public AudioClip MusicParcours;
+    private int audiosound = 0;
+
+    //public AudioClip MusicParcours;
     public AudioClip CollisionWallSound;
     public AudioClip VictorySound;
     public AudioClip DefeathSound;
@@ -30,12 +32,13 @@ public class CharactereMotor : MonoBehaviour
     void OnCollisionStay()
     {
         isGrounded = true;
-        SoundManager.Instance.PlayMusic(CollisionWallSound);
+        //SoundManager.Instance.Play(CollisionWallSound);
     }
 
     void OnCollisionExit()
     {
         isGrounded = false;
+
         
 
     }
@@ -50,9 +53,11 @@ public class CharactereMotor : MonoBehaviour
     public void jumpAction()
     {
         if (isGrounded && parcours && !winZone)
+        {
             rb.AddForce(jumpSpeed, ForceMode.Impulse);
-        SoundManager.Instance.PlayMusic(JumpSound);
-
+            SoundManager.Instance.Play(JumpSound);
+        }
+        
     }
 
     public void leftAction()
@@ -79,13 +84,25 @@ public class CharactereMotor : MonoBehaviour
                 if (first)
                 {
                     animations.Play("victory");
-                    SoundManager.Instance.PlayMusic(VictorySound);
+                    //SoundManager.Instance.MusicSource.Stop();
+                    if(audiosound == 0)
+                    {
+                        SoundManager.Instance.Play(VictorySound);
+                        audiosound++;
+                    }
+                    //SoundManager.Instance.Play(VictorySound);
                 }
 
                 else
                 {
                     animations.Play("die");
-                    SoundManager.Instance.PlayMusic(DefeathSound);
+                    //SoundManager.Instance.MusicSource.Stop();
+                    if (audiosound == 0)
+                    {
+                        SoundManager.Instance.Play(DefeathSound);
+                        audiosound++;
+                    }
+                    //SoundManager.Instance.Play(DefeathSound);
                 }
             }
             else if (fall)

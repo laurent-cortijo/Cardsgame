@@ -38,25 +38,20 @@ public class GameController : MonoBehaviour
     private CardModel blankCardModel;
 
     private bool WasCardEffectApplied;
-    private bool WasSpecialTour ;
-    
-
-
-
+    private bool specialTour ;
+   
     void Start()
 
     {
         //loseDuel();
 
         winnerText.gameObject.SetActive(false);
-
+        panelGameOver.gameObject.SetActive(false);
         tour = 0;
     	WasCardEffectApplied = false ;
+        specialTour = false ;
        
-        WasSpecialTour = false;
         
-
-        panelGameOver.gameObject.SetActive(false);
 
         currentPlayer = 0;
 
@@ -81,11 +76,17 @@ public class GameController : MonoBehaviour
     	int winner = InfoSingleton.getInstance().getWinner();
 
         WasCardEffectApplied = false ;
-       
-        WasSpecialTour = false;
+        specialTour = false ;
+ 
         tour = 0;
 
-        currentPlayer = 0;
+        currentPlayer = winner;
+
+        canvas.gameObject.SetActive(true);
+        music.gameObject.SetActive(true);
+        audioListener.gameObject.SetActive(true);
+
+
         if(winner == 0)
         	loseDuel(1);
         else
@@ -100,12 +101,8 @@ public class GameController : MonoBehaviour
             if (currentPlayer == 0 && Input.GetMouseButtonDown(0))
             {
             	Click();
-            } 
-            else if(currentPlayer != 0)
-            {
-            	StartCoroutine(Wait());
-            	Click();
-            } 	
+            }
+       
         }        
         if(!(InfoSingleton.getInstance().getBool()))
         	Restart();     
@@ -124,55 +121,51 @@ public class GameController : MonoBehaviour
     }
 
 
-     IEnumerator Wait(){
-        yield return new WaitForSeconds(2);
+    IEnumerator Wait(){
+    	yield return new WaitForSeconds(2);
+    	Click();    
     }
 
     public void Click() {
-            int i = players[currentPlayer].cards[0];
+        int i = players[currentPlayer].cards[0];
                // view.ClickCard(currentPlayer);
                     //deckUser.Add(players[currentPlayer].cards[0]);
-                deckCard.Add(currentCard.GetComponent<CardModel>().faces[i]);
+        deckCard.Add(currentCard.GetComponent<CardModel>().faces[i]);
 
+        players[currentPlayer].Pop();
 
+        if (currentPlayer == 0) {
+            view.DetermineCard(cardModel, i);
+            views[currentPlayer].cardCopies[i].transform.position = new UnityEngine.Vector3(0, -1, 0);
+            views[currentPlayer].cardCopies[i].transform.localScale = new UnityEngine.Vector3(1, 1, 0);
 
-                players[currentPlayer].Pop();
-
-
-                    if (currentPlayer == 0) {
-                        view.DetermineCard(cardModel, i);
-
-                        views[currentPlayer].cardCopies[i].transform.position = new UnityEngine.Vector3(0, -1, 0);
-                        views[currentPlayer].cardCopies[i].transform.localScale = new UnityEngine.Vector3(1, 1, 0);
-
-                    } 
-                    else {
-                    	view.DetermineCard(blankCardModel, i);
-                        views[currentPlayer].cardCopies[i].transform.position = new UnityEngine.Vector3(0, 1.5f, 0);
-                        views[currentPlayer].cardCopies[i].transform.localScale = new UnityEngine.Vector3(1,1, 0);
-  
-                    }
-                 
-                    if (currentPlayer == players.Length-1) {
-                        currentPlayer = 0 ;
-                        tour ++ ;
-                  	} 
-                    else 
-                    	currentPlayer++;
-                    Tour();
-                    //Gagnant();               
-       }
+        } 
+        else {
+        	view.DetermineCard(blankCardModel, i);
+            views[currentPlayer].cardCopies[i].transform.position = new UnityEngine.Vector3(0, 1.5f, 0);
+            views[currentPlayer].cardCopies[i].transform.localScale = new UnityEngine.Vector3(1,1, 0);
+        }
+     
+        if (currentPlayer == players.Length-1) {
+            currentPlayer = 0 ;
+            tour ++ ;
+      	} 
+        else 
+        	currentPlayer++;
+        Tour();
+        Gagnant();
+        if (currentPlayer !=0 && WasCardEffectApplied == false )
+        	StartCoroutine(Wait());               
+    }
 
 
      public void Tour() {
 
     	
-
-    	WasSpecialTour = false ;
     	WasCardEffectApplied = false ;
-        if (cardModel.cardNumber == 6 || blankCardModel.cardNumber == 6)
-            WasSpecialTour = true ;
-
+        if (cardModel.cardNumber == 6 || blankCardModel.cardNumber == 6){
+            specialTour = true ;
+        }
 
 
         //card 6 -> fleches int : tous les participants font le duel 
@@ -184,27 +177,30 @@ public class GameController : MonoBehaviour
 
         // Card 7 -> ext : posent 1 carte 
 
-        else if (cardModel.cardNumber == 8 || blankCardModel.cardNumber == 8 ){ 
+        else if (cardModel.cardNumber == 8 || blankCardModel.cardNumber == 8 ){
+        	print(" fleches ext"); 
             for (int l = 0; l<players.Length; l++)
-               { Click() ;}    
-                print(" fleches ext");   
+            {
+            	if (WasCardEffectApplied == false)
+                	Click() ;
+            }        
         }
 
-        if (WasSpecialTour == true) {
+        else if(specialTour){
             if(cardModel.cardColor == blankCardModel.cardColor) {
                 
                 print ("DUEL couleur");
                 WasCardEffectApplied = true ;
             }
-        } 
-        else
-        	if(cardModel.cardNumber == blankCardModel.cardNumber) {
+        }
+
+        else if(cardModel.cardNumber == blankCardModel.cardNumber) {
 	            print ("DUEL valeur");
 	            WasCardEffectApplied = true ;
-            }
+        }
 
-        //if (WasCardEffectApplied)
-           // Duel();
+        if (WasCardEffectApplied)
+            Duel();
    
         }
 
