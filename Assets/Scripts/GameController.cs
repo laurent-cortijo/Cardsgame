@@ -9,7 +9,8 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
 
-    private int tour;
+    private int tour, click ;
+    private int[] carteJouees = new int [48];
 
     public CardStack[] players ;
 
@@ -43,7 +44,7 @@ public class GameController : MonoBehaviour
     void Start()
 
     {
-        //loseDuel();
+      
 
         winnerText.gameObject.SetActive(false);
         panelGameOver.gameObject.SetActive(false);
@@ -79,8 +80,9 @@ public class GameController : MonoBehaviour
         specialTour = false ;
  
         tour = 0;
+        click = 0 ; 
 
-        currentPlayer = winner;
+       currentPlayer = winner;
 
         canvas.gameObject.SetActive(true);
         music.gameObject.SetActive(true);
@@ -127,23 +129,23 @@ public class GameController : MonoBehaviour
     }
 
     public void Click() {
-        int i = players[currentPlayer].cards[0];
-               // view.ClickCard(currentPlayer);
-                    //deckUser.Add(players[currentPlayer].cards[0]);
-        deckCard.Add(currentCard.GetComponent<CardModel>().faces[i]);
+
+        carteJouees[click] = players[currentPlayer].cards[0];
+
+        deckCard.Add(currentCard.GetComponent<CardModel>().faces[carteJouees[click]]);
 
         players[currentPlayer].Pop();
 
         if (currentPlayer == 0) {
-            view.DetermineCard(cardModel, i);
-            views[currentPlayer].cardCopies[i].transform.position = new UnityEngine.Vector3(0, -1, 0);
-            views[currentPlayer].cardCopies[i].transform.localScale = new UnityEngine.Vector3(1, 1, 0);
+            view.DetermineCard(cardModel, carteJouees[click]);
+            views[currentPlayer].cardCopies[carteJouees[click]].transform.position = new UnityEngine.Vector3(0, -1, 0);
+            views[currentPlayer].cardCopies[carteJouees[click]].transform.localScale = new UnityEngine.Vector3(1, 1, 0);
 
         } 
         else {
-        	view.DetermineCard(blankCardModel, i);
-            views[currentPlayer].cardCopies[i].transform.position = new UnityEngine.Vector3(0, 1.5f, 0);
-            views[currentPlayer].cardCopies[i].transform.localScale = new UnityEngine.Vector3(1,1, 0);
+        	view.DetermineCard(blankCardModel, carteJouees[click]);
+            views[currentPlayer].cardCopies[carteJouees[click]].transform.position = new UnityEngine.Vector3(0, 1.5f, 0);
+            views[currentPlayer].cardCopies[carteJouees[click]].transform.localScale = new UnityEngine.Vector3(1,1, 0);
         }
      
         if (currentPlayer == players.Length-1) {
@@ -152,6 +154,8 @@ public class GameController : MonoBehaviour
       	} 
         else 
         	currentPlayer++;
+
+        click++ ;
         Tour();
         Gagnant();
         if (currentPlayer !=0 && WasCardEffectApplied == false )
@@ -220,10 +224,14 @@ public class GameController : MonoBehaviour
     void loseDuel(int loser){
 
         for (int i=0; i<deckCard.Count; i++){
-            print("Le joueur " + "n° perdant" + "obtiens" + deckCard.Count + " cartes");
-            players[loser].Push(deck.Pop());
+
+            int j = carteJouees[i];
+            
+            players[loser].Push(j);
+
             deckCard.RemoveAt(i);
         }
+        print("Le joueur " + loser + "obtiens" + deckCard.Count + " cartes");
     }
 
 
@@ -231,6 +239,7 @@ public class GameController : MonoBehaviour
 
         for (int i = 0; i<players.Length ; i++){
             if(players[i].CardStackCount() == 0){
+
                 panelGameOver.gameObject.SetActive(true);
                 winnerText.text = "Le jouer  " + i + " a gagné !!";
                 }
