@@ -82,6 +82,9 @@ public class GameController : MonoBehaviour
         music.gameObject.SetActive(true);
         audioListener.gameObject.SetActive(true);
 
+        cardModel.cardNumber =0;
+        blankCardModel.cardNumber = 0;
+
         
         if(winner == 0)
         	loseDuel(1);
@@ -134,14 +137,12 @@ public class GameController : MonoBehaviour
 
         if (currentPlayer == 0) {
             view.DetermineCard(cardModel, x);
-            Tour(cardModel);
             views[currentPlayer].cardCopies[x].transform.position = new UnityEngine.Vector3(0, -1, 0);
             views[currentPlayer].cardCopies[x].transform.localScale = new UnityEngine.Vector3(1, 1, 0);
 
         } 
         else {
             view.DetermineCard(blankCardModel, x);
-            Tour(blankCardModel);
             views[currentPlayer].cardCopies[x].transform.position = new UnityEngine.Vector3(0, 1.5f, 0);
             views[currentPlayer].cardCopies[x].transform.localScale = new UnityEngine.Vector3(1,1, 0);
         }
@@ -163,30 +164,33 @@ public class GameController : MonoBehaviour
             }
         }
 
+        Tour();
+
+
         deck.NewDeck(x);
         
                        
     }
 
 
-     public void Tour(CardModel cardModel) {
+     public void Tour() {
 
     	
-        if (cardModel.cardNumber == 6 ){
+        if (cardModel.cardNumber == 6 || blankCardModel.cardNumber == 6){
             specialTour = true ;
         }
 
 
         //card 6 -> fleches int : tous les participants font le duel 
 
-        else if (cardModel.cardNumber == 7  ){
+        else if (cardModel.cardNumber == 7 || blankCardModel.cardNumber == 7){
             WasCardEffectApplied = true ; 
             print("DUEL fleches int");
         }
 
         // Card 7 -> ext : posent 1 carte 
 
-        else if (cardModel.cardNumber == 8 ){
+        else if (cardModel.cardNumber == 8 || blankCardModel.cardNumber == 8 ){
         	print(" fleches ext"); 
             for (int l = 0; l<players.Length; l++)
             {
