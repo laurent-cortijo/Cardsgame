@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
 {
 
     private int tour ;
-    public int click ;
+    
 
     public CardStack[] players ;
 
@@ -19,7 +19,6 @@ public class GameController : MonoBehaviour
    
     public CardStack deck;
 
-   
     public GameObject currentCard;
     public GameObject blankCard;
    
@@ -46,17 +45,15 @@ public class GameController : MonoBehaviour
     {
         winnerText.gameObject.SetActive(false);
         panelGameOver.gameObject.SetActive(false);
-        tour = 0;
+        
     	WasCardEffectApplied = false ;
         specialTour = false ;
-        click = 0;
-        
 
         currentPlayer = 0;
+        tour = 0;
 
         view = deck.GetComponent<CardStackView>();
         cardModel = currentCard.GetComponent<CardModel>();
-
         blankCardModel = blankCard.GetComponent<CardModel>();
 
         views = new CardStackView[players.Length];
@@ -78,9 +75,8 @@ public class GameController : MonoBehaviour
         specialTour = false ;
  
         tour = 0;
-        click = 0 ; 
 
-       currentPlayer = winner;
+        currentPlayer = winner;
 
         canvas.gameObject.SetActive(true);
         music.gameObject.SetActive(true);
@@ -132,7 +128,7 @@ public class GameController : MonoBehaviour
 
          int x = players[currentPlayer].cards[0];
 
-       deckCard.Add(currentCard.GetComponent<CardModel>().faces[x]);
+        deckCard.Add(currentCard.GetComponent<CardModel>().faces[x]);
 
         players[currentPlayer].Pop();
 
@@ -167,10 +163,6 @@ public class GameController : MonoBehaviour
             }
         }
 
-        if (tour == 4)
-            loseDuel(currentPlayer);
-
-        click++ ;
         deck.NewDeck(x);
         
                        
@@ -228,9 +220,8 @@ public class GameController : MonoBehaviour
             canvas.gameObject.SetActive(false);
             music.gameObject.SetActive(false);
             audioListener.gameObject.SetActive(false);
-            loseDuel(currentPlayer);
             InfoSingleton.getInstance().setNbPlayerDuel(2);
-              SceneManager.LoadScene("Parcours", LoadSceneMode.Additive);
+            SceneManager.LoadScene("Parcours", LoadSceneMode.Additive);
 
         
     }
@@ -246,6 +237,7 @@ public class GameController : MonoBehaviour
             
         }
         print("Le joueur " + loser +  " obtient " + deckCard.Count + " cartes");
+        deckCard.Clear();
     }
 
 
