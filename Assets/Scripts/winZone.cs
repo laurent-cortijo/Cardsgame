@@ -8,7 +8,7 @@ public class winZone : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (col.tag == "Player")
         {
             nombreMax++;
             if(col.gameObject.name == "Joueur1")

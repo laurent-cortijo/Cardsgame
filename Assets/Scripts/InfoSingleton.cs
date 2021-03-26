@@ -5,7 +5,7 @@ using UnityEngine;
 public class InfoSingleton : MonoBehaviour
 {
 	[SerializeField]
-	private int difficulties = 0, nb_player_duel, winner;
+	private int difficulties = 0, nbBot=0 ,nb_player_duel, winner;
 	[SerializeField]
 	private float audiolvl = 0.5f;
     [SerializeField]
@@ -76,5 +76,15 @@ public class InfoSingleton : MonoBehaviour
     public bool getBool()
     {
         return parcour;
+    }
+
+    public void setNbBot(int nb)
+    {
+        nbBot = nb;
+    }
+
+    public int getNbBot()
+    {
+        return nbBot;
     }
 }

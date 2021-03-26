@@ -79,28 +79,9 @@ public class parcourController : MonoBehaviour
     {
     	yield return new WaitForSeconds(5);
         InfoSingleton.getInstance().setBool(false);
-        SceneManager.UnloadSceneAsync("Parcours");
-
-        /*
-    	foreach(GameObject joueur in players)
-    	{
-    		if (joueur.name == "Player1")
-    		{
-    			joueur.GetComponent<CharactereMotor>().parcours = false;
-    			joueur.GetComponent<CharactereMotor>().winZone = false;
-    		}
-    		else
-    		{
-    			joueur.GetComponent<BotMotor>().parcours = false;
-    			joueur.GetComponent<BotMotor>().winZone = false;
-    		}
-    			
-    	}	
-    	pickSpawn();*/
-    		
+        SceneManager.UnloadSceneAsync("Parcours");		
     }
 
-    // Update is called once per frame
     void findWinner()
     {
         int indice = 0; 

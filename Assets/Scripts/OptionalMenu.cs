@@ -14,4 +14,9 @@ public class OptionalMenu : MonoBehaviour
     {
         InfoSingleton.getInstance().setDifficulties(dif);
     }
+
+    public void changeNBBOT(int nb)
+    {
+    	InfoSingleton.getInstance().setNbBot(nb);
+    }
 }
