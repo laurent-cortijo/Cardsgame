@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ParcoursController : MonoBehaviour
+public class parcourController : MonoBehaviour
 {
     GameObject canva, tmp, bot;
 	GameObject[] spawns, players, playParcours;
@@ -110,13 +110,13 @@ public class ParcoursController : MonoBehaviour
     }
     void Update()
     {
-    	jmax = GameObject.Find("winarea").GetComponent<WinZone>().nombreMax;
-    	j = GameObject.Find("winarea").GetComponent<WinZone>().nbj;
+    	jmax = GameObject.Find("winarea").GetComponent<winZone>().nombreMax;
+    	j = GameObject.Find("winarea").GetComponent<winZone>().nbj;
         if( jmax == players.Length || j == 1)
         {
         	canva.transform.GetChild(0).gameObject.SetActive(false);
-        	GameObject.Find("winarea").GetComponent<WinZone>().nombreMax = 0 ;
-        	GameObject.Find("winarea").GetComponent<WinZone>().nbj = 0 ;
+        	GameObject.Find("winarea").GetComponent<winZone>().nombreMax = 0 ;
+        	GameObject.Find("winarea").GetComponent<winZone>().nbj = 0 ;
             findWinner();
             StartCoroutine(Restart());
         }

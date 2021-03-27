@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BadArea : MonoBehaviour
+public class badArea : MonoBehaviour
 {
     private GameObject[] spawns;
     private GameObject respawn;
