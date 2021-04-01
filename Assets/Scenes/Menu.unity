@@ -1756,8 +1756,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0.021728516}
-  m_SizeDelta: {x: -0.00024414062, y: 0.9606323}
+  m_AnchoredPosition: {x: 0, y: 0.02178955}
+  m_SizeDelta: {x: -248.90894, y: 0.9606323}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &539849315
 MonoBehaviour:
@@ -3789,18 +3789,18 @@ MonoBehaviour:
     distribu\xE9es, dos aux participants de mani\xE8re \xE0 former une pile de cartes.\nLe
     principe est tr\xE8s simple, chaque joueur tire la carte qui se trouve sur le
     haut de sa pile puis la retourne et la pose devant sa pile.\r\nLes joueurs jouent
-    ainsi jusqu\u2019\xE0 ce que 4 cas de figure se pr\xE9sentent :\r\n- Si deux joueurs
-    posent une carte de m\xEAme num\xE9ro, un duel est d\xE9clench\xE9 entre ces derniers
-    .\n- Si un joueur pose la carte sp\xE9ciale fl\xE8che vers l\u2019int\xE9rieur,
+    ainsi jusqu\u2019\xE0 ce que 4 cas de figure se pr\xE9sentent :\r\n- Si deux
+    joueurs posent une carte de m\xEAme num\xE9ro, un duel est d\xE9clench\xE9 entre
+    ces derniers .\n- Si un joueur pose la carte sp\xE9ciale fl\xE8che vers l\u2019int\xE9rieur,
     un duel est d\xE9clench\xE9 entre tous les participants.\n- Si un joueur pose
-    la carte sp\xE9ciale fl\xE8che de couleur, un duel est d\xE9clench\xE9 entre les
-    joueurs ayant pos\xE9 une carte de m\xEAme couleur.\nA la suite d'un duel le ou
-    les perdants r\xE9cup\xE8rent toutes les cartes pos\xE9 sur le plateau de mani\xE8re
-    \xE9quitable.\nLe premier \xE0 se d\xE9barrasser de toutes ses cartes gagne la
-    partie.\n\nD\xE9roulement du duel:\nLe jouer se retrouve t\xE9l\xE9porter dans
-    un parcours o\xF9 il doit habillement controuner et sauter les obstacles \xE0
-    l'aide de bouttons pr\xE9sents sur son point de vue pour arriver le premier au
-    temple. S'il \xE9choue, il perd le duel et inversement.\n\n\n\n\n\n"
+    la carte sp\xE9ciale fl\xE8che de couleur, un duel est d\xE9clench\xE9 entre
+    les joueurs ayant pos\xE9 une carte de m\xEAme couleur.\nA la suite d'un duel
+    le ou les perdants r\xE9cup\xE8rent toutes les cartes pos\xE9 sur le plateau
+    de mani\xE8re \xE9quitable.\nLe premier \xE0 se d\xE9barrasser de toutes ses
+    cartes gagne la partie.\n\nD\xE9roulement du duel:\nLe jouer se retrouve t\xE9l\xE9porter
+    dans un parcours o\xF9 il doit habillement controuner et sauter les obstacles
+    \xE0 l'aide de bouttons pr\xE9sents sur son point de vue pour arriver le premier
+    au temple. S'il \xE9choue, il perd le duel et inversement.\n\n\n\n\n\n"
 --- !u!222 &1210029892
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4622,7 +4622,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000061035156}
   m_SizeDelta: {x: 0, y: 0.000061035156}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1524519883
