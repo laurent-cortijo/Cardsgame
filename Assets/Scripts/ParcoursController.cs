@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class parcourController : MonoBehaviour
+public class ParcoursController : MonoBehaviour
 {
     GameObject canva, tmp, bot;
 	GameObject[] spawns, players, playParcours;
@@ -23,11 +23,27 @@ public class parcourController : MonoBehaviour
     void takePlayer()
     {
         playParcours = new GameObject[nbplayers];
+        playParcours[0] = GameObject.Find("Joueur1");
+        int ndz = 1, indice = 0;
+        while(ndz<nbplayers)
+        {
+        	if(players[indice].name =="Joueur1")
+        	{
+        		indice++;
+        	}
+        	else
+        	{
+        		playParcours[ndz] = players[indice];
+        		ndz++;
+        		indice++; 
+        	}
+        }
+        /*
         for (int indice = 0; indice<nbplayers;indice++)
         {
             playParcours[indice] = players[indice];
         }
-
+		*/
         pickSpawn();
     }
 
@@ -110,18 +126,15 @@ public class parcourController : MonoBehaviour
     }
     void Update()
     {
-    	jmax = GameObject.Find("winarea").GetComponent<winZone>().nombreMax;
-    	j = GameObject.Find("winarea").GetComponent<winZone>().nbj;
+    	jmax = GameObject.Find("winarea").GetComponent<WinZone>().nombreMax;
+    	j = GameObject.Find("winarea").GetComponent<WinZone>().nbj;
         if( jmax == players.Length || j == 1)
         {
         	canva.transform.GetChild(0).gameObject.SetActive(false);
-        	GameObject.Find("winarea").GetComponent<winZone>().nombreMax = 0 ;
-        	GameObject.Find("winarea").GetComponent<winZone>().nbj = 0 ;
+        	GameObject.Find("winarea").GetComponent<WinZone>().nombreMax = 0 ;
+        	GameObject.Find("winarea").GetComponent<WinZone>().nbj = 0 ;
             findWinner();
             StartCoroutine(Restart());
         }
-
-        	
-
     }
 }
